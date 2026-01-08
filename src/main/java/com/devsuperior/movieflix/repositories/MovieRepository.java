@@ -21,4 +21,6 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
             """)
     List<MovieGenreProjection> getAllMovieCard(String genreName);
 
+    @Query("SELECT obj FROM Movie obj JOIN FETCH obj.genre WHERE obj.id = :id ")
+    Movie getMovieWithGenre(Long id);
 }

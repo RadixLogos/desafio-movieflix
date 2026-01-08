@@ -43,4 +43,9 @@ public class MovieService {
         return new PageImpl<>(movieCardDTOList, pageable, movieCardDTOList.size());
     }
 
+    @Transactional(readOnly = true)
+    public MovieDetailsDTO getMovieDetails(Long movieId){
+        var movie = movieRepository.getMovieWithGenre(movieId);
+        return new MovieDetailsDTO(movie.getId(),movie.getTitle(),movie.getSubTitle(),movie.getYear(),movie.getImgUrl(),movie.getSynopsis(),new GenreDTO(movie.getGenre().getId(),movie.getGenre().getName()));
+    }
 }

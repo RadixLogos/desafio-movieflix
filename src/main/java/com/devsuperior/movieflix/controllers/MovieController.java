@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/movies")
@@ -19,6 +17,7 @@ public class MovieController {
     MovieService movieService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_VISITOR', 'ROLE_MEMBER')")
     public ResponseEntity<Page<MovieCardDTO>> findAllMovies(
             Pageable pageable,
             @RequestParam(name = "genreId", value = "") Long genreId){
@@ -26,4 +25,9 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{movieId}")
+    public ResponseEntity<MovieDetailsDTO> findMovieDetails(@PathVariable Long movieId){
+        var response = movieService.getMovieDetails(movieId);
+        return ResponseEntity.ok(response);
+    }
 }
