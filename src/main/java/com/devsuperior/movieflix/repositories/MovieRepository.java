@@ -9,16 +9,16 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie,Long> {
     @Query(nativeQuery = true, value = """
-            SELECT tb_movie.id, tb_movie.title, tb_movie.sub_title, tb_movie.synopsis, tb_movie.movie_year, tb_movie.img_url, tb_genre.id AS genre_id,tb_genre.name AS genre_name FROM tb_movie
+            SELECT tb_movie.id, tb_movie.title, tb_movie.sub_title, tb_movie.movie_year, tb_movie.img_url FROM tb_movie
             INNER JOIN tb_genre ON tb_movie.genre_id = tb_genre.id
             WHERE tb_genre.name LIKE CONCAT('%',:genreName)
             ORDER BY tb_movie.title;
             """, countQuery = """
-            SELECT COUNT(*) FROM (SELECT tb_movie.id, tb_movie.title, tb_movie.sub_title, tb_movie.synopsis, tb_movie.movie_year, tb_movie.img_url, tb_genre.id AS genre_id,tb_genre.name AS genre_name FROM tb_movie
+            SELECT COUNT(*) FROM (SELECT tb_movie.id, tb_movie.title, tb_movie.sub_title, tb_movie.movie_year, tb_movie.img_url FROM tb_movie
             INNER JOIN tb_genre ON tb_movie.genre_id = tb_genre.id
             WHERE tb_genre.name LIKE CONCAT('%',:genreName)
             ORDER BY tb_movie.title);
             """)
-    List<MovieGenreProjection> getMovieDetails(String genreName);
+    List<MovieGenreProjection> getAllMovieCard(String genreName);
 
 }

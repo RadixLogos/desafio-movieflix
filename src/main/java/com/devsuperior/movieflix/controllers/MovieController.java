@@ -1,5 +1,6 @@
 package com.devsuperior.movieflix.controllers;
 
+import com.devsuperior.movieflix.dto.MovieCardDTO;
 import com.devsuperior.movieflix.dto.MovieDetailsDTO;
 import com.devsuperior.movieflix.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class MovieController {
     MovieService movieService;
 
     @GetMapping
-    public ResponseEntity<Page<MovieDetailsDTO>> findAllMovies(
+    public ResponseEntity<Page<MovieCardDTO>> findAllMovies(
             Pageable pageable,
             @RequestParam(name = "genreId", value = "") Long genreId){
         var response = movieService.getAllMoviesDetails(pageable, genreId);
