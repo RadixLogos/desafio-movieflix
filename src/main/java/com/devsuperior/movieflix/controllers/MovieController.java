@@ -20,12 +20,13 @@ public class MovieController {
     @PreAuthorize("hasAnyRole('ROLE_VISITOR', 'ROLE_MEMBER')")
     public ResponseEntity<Page<MovieCardDTO>> findAllMovies(
             Pageable pageable,
-            @RequestParam(name = "genreId", value = "") Long genreId){
+            @RequestParam(name = "genreId", defaultValue = "0") Long genreId){
         var response = movieService.getAllMoviesDetails(pageable, genreId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{movieId}")
+    @PreAuthorize("hasAnyRole('ROLE_VISITOR', 'ROLE_MEMBER')")
     public ResponseEntity<MovieDetailsDTO> findMovieDetails(@PathVariable Long movieId){
         var response = movieService.getMovieDetails(movieId);
         return ResponseEntity.ok(response);

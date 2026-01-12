@@ -46,6 +46,9 @@ public class MovieService {
     @Transactional(readOnly = true)
     public MovieDetailsDTO getMovieDetails(Long movieId){
         var movie = movieRepository.getMovieWithGenre(movieId);
+        if(movie == null){
+            throw new ResourceNotFoundException("Filme não encontrado!");
+        }
         return new MovieDetailsDTO(movie.getId(),movie.getTitle(),movie.getSubTitle(),movie.getYear(),movie.getImgUrl(),movie.getSynopsis(),new GenreDTO(movie.getGenre().getId(),movie.getGenre().getName()));
     }
 }
